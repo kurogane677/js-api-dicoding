@@ -3,14 +3,14 @@ const bookshelf = require("./bookshelf");
 
 const addBookHandler = (request, h) => {
   const id = nanoid(16);
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
+  const insertedAt = new Date().toISOString();
+  const updatedAt = insertedAt;
   const {
     name,
     year,
     author,
     summary,
-    publihser,
+    publisher,
     readPage,
     pageCount,
     reading,
@@ -43,12 +43,12 @@ const addBookHandler = (request, h) => {
     year,
     author,
     summary,
-    publihser,
+    publisher,
     pageCount,
     readPage,
     reading,
     finished,
-    createdAt,
+    insertedAt,
     updatedAt,
   };
 
@@ -62,6 +62,8 @@ const addBookHandler = (request, h) => {
       message: "Buku berhasil ditambahkan",
       data: {
         bookId: id,
+        bookName: name,
+        bookPublisher: publisher,
       },
     });
     response.code(201);
@@ -136,13 +138,13 @@ const getAllBookHandler = (request, h) => {
 const getSpecificBookHandler = (request, h) => {
   const { id } = request.params;
 
-  const index = bookshelf.filter((b) => b.id === id)[0];
+  const book = bookshelf.filter((b) => b.id === id)[0];
 
-  if (index !== undefined) {
+  if (book !== undefined) {
     const response = h.response({
       status: "success",
       data: {
-        index,
+        book,
       },
     });
     response.code(200);
